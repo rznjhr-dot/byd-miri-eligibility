@@ -284,7 +284,51 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
   </a>
 
 </div>
+<div class="disclaimer-card">
 
+  <h4>📌 Disclaimer</h4>
+
+  <p>
+
+    Kiraan kelayakan dan ansuran bulanan yang dipaparkan adalah
+    anggaran awal untuk tujuan rujukan sahaja.
+
+    <br><br>
+
+    Pengiraan dibuat berdasarkan:
+
+    <br>
+
+    • Deposit 10%
+
+    <br>
+
+    • Tempoh pembiayaan 9 tahun
+
+    <br>
+
+    • Anggaran kadar faedah semasa 2.2% setahun
+
+    <br><br>
+
+    Kelayakan pembiayaan dan ansuran sebenar adalah tertakluk kepada
+    penilaian institusi kewangan, rekod CCRIS/CTOS, komitmen kewangan
+    semasa, margin pembiayaan yang diluluskan serta kadar faedah yang
+    berkuat kuasa pada waktu permohonan.
+
+    <br><br>
+
+    Untuk semakan yang lebih tepat, sila hubungi Ridzuan BYD Miri.
+
+  </p>
+
+  <div class="footer-note">
+
+    © 2026 Ridzuan BYD Miri. All Rights Reserved.
+
+  </div>
+
+</div>
   
 
   `;

@@ -333,3 +333,46 @@ h2 {
   background:rgba(255,255,255,.12);
 
 }
+.disclaimer-card{
+
+  margin-top:20px;
+
+  padding:18px;
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid rgba(255,255,255,.05);
+
+  border-radius:16px;
+
+  color:rgba(255,255,255,.60);
+
+  font-size:12px;
+
+  line-height:1.7;
+
+}
+
+.disclaimer-card h4{
+
+  color:white;
+
+  margin-bottom:12px;
+
+}
+
+.footer-note{
+
+  margin-top:16px;
+
+  padding-top:12px;
+
+  border-top:1px solid rgba(255,255,255,.08);
+
+  text-align:center;
+
+  font-size:11px;
+
+  color:rgba(255,255,255,.40);
+
+}
