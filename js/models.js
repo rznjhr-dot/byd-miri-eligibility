@@ -14,6 +14,7 @@ const MODELS = [
     price: 106353,
     range: "410km",
     positioning: "Perfect First EV",
+    image: "assets/cars/atto2.png",
     priority: 4
   },
 
@@ -23,6 +24,7 @@ const MODELS = [
     price: 122552,
     range: "485km",
     positioning: "Executive EV Sedan",
+    image: "assets/cars/seal6.png",
     priority: 3
   },
 
@@ -32,6 +34,7 @@ const MODELS = [
     price: 130690,
     range: "530km",
     positioning: "7-Seater Family EV",
+    image: "assets/cars/m6.png",
     priority: 2
   },
 
@@ -41,6 +44,7 @@ const MODELS = [
     price: 133890.90,
     range: "480km",
     positioning: "Family SUV",
+    image: "assets/cars/atto3-ultra.png",
     priority: 1
   },
 
@@ -50,6 +54,7 @@ const MODELS = [
     price: 147333.20,
     range: "600km",
     positioning: "Long Range Performance SUV",
+    image: "assets/cars/atto3-premium.png",
     priority: 5
   },
 
@@ -59,6 +64,7 @@ const MODELS = [
     price: 179879,
     range: "650km",
     positioning: "Premium Long Range Sedan",
+    image: "assets/cars/seal-premium.png",
     priority: 6
   },
 
@@ -68,6 +74,7 @@ const MODELS = [
     price: 192116,
     range: "567km",
     positioning: "Premium Electric SUV",
+    image: "assets/cars/sealion7-premium.png",
     priority: 7
   },
 
@@ -77,6 +84,7 @@ const MODELS = [
     price: 200904,
     range: "580km",
     positioning: "Performance Sedan",
+    image: "assets/cars/seal-performance.png",
     priority: 8
   },
 
@@ -86,6 +94,7 @@ const MODELS = [
     price: 209062,
     range: "542km",
     positioning: "Ultimate Performance SUV",
+    image: "assets/cars/sealion7-performance.png",
     priority: 9
   }
 

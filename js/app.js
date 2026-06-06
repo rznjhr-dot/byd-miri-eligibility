@@ -122,7 +122,7 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
 
   resultSection.innerHTML = `
 
-    <div class="calculator-card">
+    <div class="calculator-card featured-card">
 
       <h3>
         Bajet Disyorkan
@@ -134,25 +134,48 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
 
     </div>
 
-    <div class="featured-badge">
+  <div class="advisor-header">
+
+  <div class="advisor-line"></div>
+
+  <div class="featured-badge">
     ⭐ CADANGAN RIDZUAN
   </div>
 
-  <h2>
-    ${featured.name}
-  </h2>
+  <div class="advisor-line"></div>
 
-  <p>
-    ${featured.positioning}
-  </p>
+</div>
 
-  <p class="range-text">
-    ${featured.range}
-  </p>
+  <div class="featured-layout">
 
-  <div class="monthly-payment">
-    ${formatCurrency(monthly)}
-    / bulan
+  <div class="featured-content">
+
+    <h2>
+      ${featured.name}
+    </h2>
+
+    <p>
+      ${featured.positioning}
+    </p>
+
+    <p class="range-text">
+      ⚡ Range: ${featured.range}
+    </p>
+
+    <div class="monthly-payment">
+      ${formatCurrency(monthly)}
+      / bulan
+    </div>
+
+  </div>
+
+  <img
+    src="${featured.image}"
+    class="featured-image"
+    alt="${featured.name}">
+
+</div>
+
   </div>
 
 </div>
@@ -168,25 +191,42 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
     ?
     alternatives.map(model => `
 
-      <div
-      style="
-      margin-top:15px;
-      padding:12px;
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:12px;
-      ">
+      <div class="eligible-item">
 
-        <strong>
-  ✓ ${model.name}
-</strong>
+  <div>
 
-        <br>
+    <strong>
+      ✓ ${model.name}
+    </strong>
 
-        <small>
-          ${model.positioning}
-        </small>
+    <br>
 
-      </div>
+    <small>
+      ${model.positioning}
+    </small>
+
+    <div class="eligible-meta">
+
+  Range: ${model.range}
+
+  •
+
+  ${formatCurrency(
+    calculateMonthlyPayment(
+      model.price
+    )
+  )}/bulan
+
+</div>
+
+  </div>
+
+  <img
+    src="${model.image}"
+    class="eligible-thumb"
+    alt="${model.name}">
+
+</div>
 
     `).join("")
     :
