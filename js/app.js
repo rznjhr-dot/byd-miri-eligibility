@@ -61,18 +61,18 @@ function renderResults() {
     calculateBudget(income);
 
   const eligible =
-    MODELS.filter(model => {
+  MODELS.filter(model => {
 
-      return (
-        calculateMonthlyPayment(
-          model.price
-        ) <= budget
-      );
-
-    }).sort(
-      (a, b) =>
-      a.priority - b.priority
+    return (
+      calculateMonthlyPayment(
+        model.price
+      ) <= budget
     );
+
+  }).sort(
+    (a, b) =>
+    b.price - a.price
+  );
 
   if (!eligible.length) {
 
