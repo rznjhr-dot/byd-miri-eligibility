@@ -105,6 +105,21 @@ function renderResults() {
       featured.price
     );
 
+  const whatsappMessage =
+encodeURIComponent(
+`Hi Ridzuan,
+
+Saya baru menggunakan BYD Miri EV Advisor.
+
+Pendapatan Bersih Bulanan:
+RM${income}
+
+Cadangan Ridzuan:
+${featured.name}
+
+Boleh bantu saya dengan semakan loan yang lebih tepat?`
+);
+
   resultSection.innerHTML = `
 
     <div class="calculator-card">
@@ -120,7 +135,7 @@ function renderResults() {
     </div>
 
     <div class="featured-badge">
-    ⭐ CADANGAN UTAMA
+    ⭐ CADANGAN RIDZUAN
   </div>
 
   <h2>
@@ -144,11 +159,9 @@ function renderResults() {
 
    <div class="calculator-card">
 
-   <div class="calculator-card">
-
   <h3>
-    Model Lain Yang Sesuai
-  </h3>
+  ANDA LAYAK UNTUK
+</h3>
 
   ${
     alternatives.length
@@ -164,8 +177,8 @@ function renderResults() {
       ">
 
         <strong>
-          ${model.name}
-        </strong>
+  ✓ ${model.name}
+</strong>
 
         <br>
 
@@ -215,28 +228,18 @@ function renderResults() {
 
   <p style="margin-top:10px">
 
-    Nak semakan loan yang lebih tepat?
+    Nak semakan loan yang lebih tepat berdasarkan komitmen semasa anda?
 
   </p>
 
   <a
     class="wa-button"
     target="_blank"
-    href="https://wa.me/${APP_CONFIG.whatsappNumber}?text=${encodeURIComponent(
-      `Hi Ridzuan,
+    href="https://wa.me/${APP_CONFIG.whatsappNumber}?text=${whatsappMessage}">
+    
+    
 
-Saya baru menggunakan EV Eligibility Checker.
-
-Pendapatan Bulanan:
-RM${income}
-
-Model Pilihan:
-${featured.name}
-
-Boleh bantu saya dengan semakan lanjut?`
-    )}">
-
-    WhatsApp Sekarang
+    📱 Dapatkan Semakan Loan Percuma
 
   </a>
 

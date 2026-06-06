@@ -2,7 +2,7 @@ const APP_CONFIG = {
   depositRate: 0.10,
   interestRate: 0.022,
   tenureYears: 9,
-  eligibilityRatio: 0.35,
+  eligibilityRatio: 0.40,
   whatsappNumber: "601131933930"
 };
 
