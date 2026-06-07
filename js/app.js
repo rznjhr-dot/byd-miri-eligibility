@@ -63,35 +63,44 @@ function getBudgetMeter(
   budget
 ) {
 
-  const usage =
+  const displayUsage =
     Math.round(
       (monthly / budget) * 100
     );
 
   let color = "🟢";
 
-  if (usage > 85) {
+  if (displayUsage > 85) {
 
     color = "🟠";
 
-  } else if (usage > 60) {
+  } else if (displayUsage > 60) {
 
     color = "🔵";
 
   }
 
+  let label =
+    `${color} ${displayUsage}% Bajet Digunakan`;
+
+  if (displayUsage > 100) {
+
+    label =
+      "🔴 Melebihi Bajet Disyorkan";
+
+  }
+
   return {
 
-    usage,
+    usage: displayUsage,
 
     position:
       Math.min(
-        usage,
+        displayUsage,
         100
       ),
 
-    label:
-      `${color} Menggunakan ${usage}% bajet disyorkan`
+    label
 
   };
 
@@ -105,6 +114,18 @@ Number(
 );
 
   if (!currentIncome) return;
+
+if (typeof gtag !== "undefined") {
+
+  gtag(
+    "event",
+    "calculator_submit",
+    {
+      income: currentIncome
+    }
+  );
+
+}
 
   currentBudget =
 calculateBudget(
@@ -145,6 +166,36 @@ MODELS.filter(model => {
   return;
 
 }
+const waButton =
+document.querySelector(".wa-button");
+
+if (waButton) {
+
+  waButton.addEventListener(
+    "click",
+    () => {
+
+      if (
+        typeof gtag !== "undefined"
+      ) {
+
+        gtag(
+          "event",
+          "whatsapp_click",
+          {
+            model:
+              selectedModel.name,
+            income:
+              currentIncome
+          }
+        );
+
+      }
+
+    }
+  );
+
+}
 
   recommendedModel =
   currentEligible[0];
@@ -153,6 +204,19 @@ if (!selectedModel) {
 
   selectedModel =
     recommendedModel;
+
+}
+
+if (typeof gtag !== "undefined") {
+
+  gtag(
+    "event",
+    "recommendation_generated",
+    {
+      model:
+        recommendedModel.name
+    }
+  );
 
 }
     
@@ -165,6 +229,30 @@ currentEligible.filter(
   const monthly =
 calculateMonthlyPayment(
   selectedModel.price
+);
+
+const rebateData =
+MODEL_REBATES[
+  selectedModel.id
+] || {
+  rebate: 0
+};
+
+const rebate =
+rebateData.rebate;
+
+const effectivePrice =
+selectedModel.price - rebate;
+
+const monthlyAfterRebate =
+calculateMonthlyPayment(
+  effectivePrice
+);
+
+const monthlySaving =
+Math.round(
+  monthly -
+  monthlyAfterRebate
 );
 
 const budgetMeter =
@@ -285,27 +373,16 @@ ${
 
     </div>
 
+
   `).join("")}
 
 </div>
 
-  </div>
-
-  <div class="suitability-section">
+<div class="suitability-section">
 
   <h4>
     📊 BAJET-O-METER
   </h4>
-
-  <div class="suitability-scale">
-
-    0%
-
-    <span>
-      100%
-    </span>
-
-  </div>
 
   <div class="suitability-meter">
 
@@ -323,21 +400,54 @@ ${
 
 </div>
 
-<div class="suitability-description">
+<div class="rebate-card">
 
-  RM${monthly.toLocaleString()}
-  daripada
-  RM${currentBudget.toLocaleString()}
+  <h4>
+    🎁 PROMO BULAN INI
+  </h4>
+
+  ${
+    rebateData.badge
+      ? `
+      <div class="promo-badge">
+        ${rebateData.badge}
+      </div>
+      `
+      : ""
+  }
+
+  <div class="rebate-value">
+
+    Rebat Tunai:
+    ${formatCurrency(rebate)}
+
+  </div>
+
+  <div class="rebate-saving">
+
+    Ansuran Selepas Rebat:
+
+    ${formatCurrency(
+      monthlyAfterRebate
+    )}/bulan
+
+  </div>
+
+  <div class="rebate-saving">
+
+    💰 Jimat
+    ${formatCurrency(
+      monthlySaving
+    )}
+    sebulan
+
+  </div>
 
 </div>
 
-<div class="suitability-usage">
-
-  (${budgetMeter.usage}% penggunaan bajet)
-
 </div>
 
-</div>
+  </div>  
 
   <img
     src="${selectedModel.image}"
@@ -345,8 +455,6 @@ ${
     alt="${selectedModel.name}">
 
 </div>
-
-
 
    <div class="calculator-card">
 
