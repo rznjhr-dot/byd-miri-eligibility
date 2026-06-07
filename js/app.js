@@ -166,36 +166,8 @@ MODELS.filter(model => {
   return;
 
 }
-const waButton =
-document.querySelector(".wa-button");
 
-if (waButton) {
 
-  waButton.addEventListener(
-    "click",
-    () => {
-
-      if (
-        typeof gtag !== "undefined"
-      ) {
-
-        gtag(
-          "event",
-          "whatsapp_click",
-          {
-            model:
-              selectedModel.name,
-            income:
-              currentIncome
-          }
-        );
-
-      }
-
-    }
-  );
-
-}
 
   recommendedModel =
   currentEligible[0];
@@ -618,6 +590,37 @@ ${
   resultSection.classList.remove(
   "hidden"
 );
+
+const waButton =
+document.querySelector(".wa-button");
+
+if (waButton) {
+
+  waButton.addEventListener(
+    "click",
+    () => {
+
+      if (
+        typeof gtag !== "undefined"
+      ) {
+
+        gtag(
+          "event",
+          "whatsapp_click",
+          {
+            model:
+              selectedModel.name,
+            income:
+              currentIncome
+          }
+        );
+
+      }
+
+    }
+  );
+
+}
 
 document
 .querySelectorAll(".eligible-item")
