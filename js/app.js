@@ -105,6 +105,11 @@ function renderResults() {
       featured.price
     );
 
+  const reasons =
+  MODEL_REASONS[
+    featured.id
+  ] || [];
+
   const whatsappMessage =
 encodeURIComponent(
 `Hi Ridzuan,
@@ -129,7 +134,7 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
       </h3>
 
       <h2>
-        ${formatCurrency(budget)}
+        ~ ${formatCurrency(budget)}
       </h2>
 
     </div>
@@ -167,6 +172,24 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
       / bulan
     </div>
 
+<div class="advisor-reasons">
+
+  <h4>
+    Mengapa Model Ini Sesuai Untuk Anda
+  </h4>
+
+  ${reasons.map(reason => `
+
+    <div class="advisor-reason">
+
+      ✓ ${reason}
+
+    </div>
+
+  `).join("")}
+
+</div>
+
   </div>
 
   <img
@@ -176,9 +199,7 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
 
 </div>
 
-  </div>
 
-</div>
 
    <div class="calculator-card">
 
