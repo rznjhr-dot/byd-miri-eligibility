@@ -4,6 +4,16 @@ document.getElementById("checkBtn");
 const resultSection =
 document.getElementById("resultSection");
 
+let currentEligible = [];
+
+let recommendedModel = null;
+
+let selectedModel = null;
+
+let currentIncome = 0;
+
+let currentBudget = 0;
+
 checkBtn.addEventListener(
   "click",
   renderResults
@@ -41,32 +51,73 @@ function calculateMonthlyPayment(price) {
 
 }
 
-function calculateBudget(income) {
+function calculateBudget(currentIncome) {
 
-  return income *
+  return currentIncome *
     APP_CONFIG.eligibilityRatio;
+
+}
+
+function getBudgetMeter(
+  monthly,
+  budget
+) {
+
+  const usage =
+    Math.round(
+      (monthly / budget) * 100
+    );
+
+  let color = "🟢";
+
+  if (usage > 85) {
+
+    color = "🟠";
+
+  } else if (usage > 60) {
+
+    color = "🔵";
+
+  }
+
+  return {
+
+    usage,
+
+    position:
+      Math.min(
+        usage,
+        100
+      ),
+
+    label:
+      `${color} Menggunakan ${usage}% bajet disyorkan`
+
+  };
 
 }
 
 function renderResults() {
 
-  const income =
-    Number(
-      document.getElementById("income").value
-    );
+  currentIncome =
+Number(
+  document.getElementById("income").value
+);
 
-  if (!income) return;
+  if (!currentIncome) return;
 
-  const budget =
-    calculateBudget(income);
+  currentBudget =
+calculateBudget(
+  currentIncome
+);
 
-  const eligible =
-  MODELS.filter(model => {
+  currentEligible =
+MODELS.filter(model => {
 
     return (
       calculateMonthlyPayment(
-        model.price
-      ) <= budget
+  model.price
+) <= currentBudget
     );
 
   }).sort(
@@ -74,41 +125,59 @@ function renderResults() {
     b.price - a.price
   );
 
-  if (!eligible.length) {
+  if (!currentEligible.length) {
 
-    resultSection.innerHTML = `
-      <div class="calculator-card">
-        <h3>
-          Tiada model dalam julat bajet semasa.
-        </h3>
+  resultSection.innerHTML = `
+    <div class="calculator-card">
+      <h3>
+        Tiada model dalam julat bajet semasa.
+      </h3>
 
-        <p style="margin-top:12px;">
-          Hubungi Ridzuan BYD Miri
-          untuk semakan lanjut.
-        </p>
-      </div>
-    `;
+      <p style="margin-top:12px;">
+        Hubungi Ridzuan BYD Miri
+        untuk semakan lanjut.
+      </p>
+    </div>
+  `;
 
-    resultSection.classList.remove("hidden");
+  resultSection.classList.remove("hidden");
 
-    return;
-  }
+  return;
 
-  const featured =
-    eligible[0];
+}
+
+  recommendedModel =
+  currentEligible[0];
+
+if (!selectedModel) {
+
+  selectedModel =
+    recommendedModel;
+
+}
     
   const alternatives =
-  eligible.slice(1);
+currentEligible.filter(
+  model =>
+  model.id !== selectedModel.id
+);
 
   const monthly =
-    calculateMonthlyPayment(
-      featured.price
-    );
+calculateMonthlyPayment(
+  selectedModel.price
+);
+
+const budgetMeter =
+getBudgetMeter(
+  monthly,
+  currentBudget
+);
+
 
   const reasons =
   MODEL_REASONS[
-    featured.id
-  ] || [];
+  selectedModel.id
+] || [];
 
   const whatsappMessage =
 encodeURIComponent(
@@ -117,10 +186,10 @@ encodeURIComponent(
 Saya baru menggunakan BYD Miri EV Advisor.
 
 Pendapatan Bersih Bulanan:
-RM${income}
+RM${currentIncome}
 
 Cadangan Ridzuan:
-${featured.name}
+${selectedModel.name}
 
 Boleh bantu saya dengan semakan loan yang lebih tepat?`
 );
@@ -134,7 +203,7 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
       </h3>
 
       <h2>
-        ~ ${formatCurrency(budget)}
+        ~ ${formatCurrency(currentBudget)}
       </h2>
 
     </div>
@@ -144,27 +213,57 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
   <div class="advisor-line"></div>
 
   <div class="featured-badge">
-    ⭐ CADANGAN RIDZUAN
+    ${
+  selectedModel.id ===
+  recommendedModel.id
+
+  ?
+
+  "⭐ CADANGAN RIDZUAN"
+
+  :
+
+  "🔍 MODEL LAIN YANG SESUAI DENGAN ANDA"
+}
   </div>
 
   <div class="advisor-line"></div>
 
 </div>
 
+${
+  selectedModel.id !==
+  recommendedModel.id
+
+  ?
+
+  `
+    <div class="back-recommendation">
+
+      ← Kembali ke Cadangan Ridzuan
+
+    </div>
+  `
+
+  :
+
+  ""
+}
+
   <div class="featured-layout">
 
   <div class="featured-content">
 
     <h2>
-      ${featured.name}
+      ${selectedModel.name}
     </h2>
 
     <p>
-      ${featured.positioning}
+      ${selectedModel.positioning}
     </p>
 
     <p class="range-text">
-      ⚡ Range: ${featured.range}
+      ⚡ Range: ${selectedModel.range}
     </p>
 
     <div class="monthly-payment">
@@ -192,10 +291,58 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
 
   </div>
 
+  <div class="suitability-section">
+
+  <h4>
+    📊 BAJET-O-METER
+  </h4>
+
+  <div class="suitability-scale">
+
+    0%
+
+    <span>
+      100%
+    </span>
+
+  </div>
+
+  <div class="suitability-meter">
+
+    <div
+      class="suitability-dot"
+      style="
+      left:${budgetMeter.position}%;">
+    </div>
+
+  </div>
+
+  <div class="suitability-label">
+
+  ${budgetMeter.label}
+
+</div>
+
+<div class="suitability-description">
+
+  RM${monthly.toLocaleString()}
+  daripada
+  RM${currentBudget.toLocaleString()}
+
+</div>
+
+<div class="suitability-usage">
+
+  (${budgetMeter.usage}% penggunaan bajet)
+
+</div>
+
+</div>
+
   <img
-    src="${featured.image}"
+    src="${selectedModel.image}"
     class="featured-image"
-    alt="${featured.name}">
+    alt="${selectedModel.name}">
 
 </div>
 
@@ -212,7 +359,9 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
     ?
     alternatives.map(model => `
 
-      <div class="eligible-item">
+      <div
+  class="eligible-item"
+  data-model-id="${model.id}">
 
   <div>
 
@@ -223,8 +372,12 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
     <br>
 
     <small>
-      ${model.positioning}
-    </small>
+  ${model.positioning}
+</small>
+
+<div class="eligible-hint">
+  Klik untuk lihat model ini
+</div>
 
     <div class="eligible-meta">
 
@@ -355,7 +508,57 @@ Boleh bantu saya dengan semakan loan yang lebih tepat?`
   `;
 
   resultSection.classList.remove(
-    "hidden"
+  "hidden"
+);
+
+document
+.querySelectorAll(".eligible-item")
+.forEach(card => {
+
+  card.addEventListener(
+    "click",
+    () => {
+
+      const selectedId =
+        card.dataset.modelId;
+
+      const chosenModel =
+        currentEligible.find(
+          model =>
+          model.id === selectedId
+        );
+
+      if (!chosenModel) return;
+
+      selectedModel =
+        chosenModel;
+
+      renderResults();
+
+    }
   );
+
+});
+
+const backButton =
+document.querySelector(
+  ".back-recommendation"
+);
+
+if (backButton) {
+
+  backButton.addEventListener(
+    "click",
+    () => {
+
+      selectedModel =
+        recommendedModel;
+
+      renderResults();
+
+    }
+  );
+
+}
 
 }

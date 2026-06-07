@@ -284,3 +284,83 @@ h2 {
   font-size:15px;
   line-height:1.5;
 }
+
+.eligible-item{
+  cursor:pointer;
+}
+
+.eligible-hint{
+  margin-top:6px;
+  font-size:11px;
+  opacity:.55;
+}
+
+.back-recommendation{
+  text-align:center;
+  margin-bottom:25px;
+  font-size:14px;
+  color:#7cc5ff;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.back-recommendation:hover{
+  opacity:.75;
+}
+
+.suitability-section{
+  margin-top:30px;
+}
+
+.suitability-scale{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  opacity:.55;
+  margin-bottom:10px;
+}
+
+.suitability-meter{
+  position:relative;
+  height:6px;
+  border-radius:999px;
+  background:
+linear-gradient(
+  90deg,
+  #27c93f,
+  #3b82f6,
+  #f59e0b
+);
+}
+
+.suitability-dot{
+  position:absolute;
+  top:50%;
+  transform:
+  translate(-50%,-50%);
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:white;
+  box-shadow:
+  0 0 10px
+  rgba(255,255,255,.6);
+}
+
+.suitability-label{
+  margin-top:15px;
+  font-weight:700;
+}
+
+.suitability-description{
+  margin-top:8px;
+  font-size:13px;
+  opacity:.7;
+  line-height:1.5;
+}
+
+.suitability-usage{
+  margin-top:6px;
+  font-size:13px;
+  opacity:.65;
+}
