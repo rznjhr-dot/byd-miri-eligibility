@@ -1,23 +1,65 @@
 const checkBtn =
-document.getElementById("checkBtn");
+document.getElementById(
+  "checkBtn"
+);
+
+const resetBtn =
+document.getElementById(
+  "resetBtn"
+);
 
 const resultSection =
 document.getElementById("resultSection");
 
 let currentEligible = [];
-
 let recommendedModel = null;
-
 let selectedModel = null;
-
 let currentIncome = 0;
-
+let currentDownpayment = 0;
 let currentBudget = 0;
+let currentTenure = 9;
 
 checkBtn.addEventListener(
   "click",
   renderResults
 );
+
+resetBtn.addEventListener(
+  "click",
+  resetCalculator
+);
+
+document
+.querySelectorAll(".tenure-btn")
+.forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      document
+      .querySelectorAll(".tenure-btn")
+      .forEach(btn => {
+
+        btn.classList.remove(
+          "active"
+        );
+
+      });
+
+      button.classList.add(
+        "active"
+      );
+
+      currentTenure =
+      Number(
+        button.dataset.tenure
+      );
+
+    }
+  );
+
+});
 
 function formatCurrency(value) {
 
@@ -32,7 +74,10 @@ function formatCurrency(value) {
 
 }
 
-function calculateMonthlyPayment(price) {
+function calculateMonthlyPayment(
+  price,
+  tenureYears = currentTenure
+) {
 
   const loanAmount =
     price * (1 - APP_CONFIG.depositRate);
@@ -40,14 +85,14 @@ function calculateMonthlyPayment(price) {
   const totalInterest =
     loanAmount *
     APP_CONFIG.interestRate *
-    APP_CONFIG.tenureYears;
+    tenureYears;
 
   const totalRepayment =
     loanAmount +
     totalInterest;
 
   return totalRepayment /
-    (APP_CONFIG.tenureYears * 12);
+    (tenureYears * 12);
 
 }
 
@@ -113,6 +158,16 @@ Number(
   document.getElementById("income").value
 );
 
+const downpaymentInput =
+document.getElementById(
+  "downpayment"
+);
+
+currentDownpayment =
+Number(
+  downpaymentInput.value
+) || 0;
+
   if (!currentIncome) return;
 
 if (typeof gtag !== "undefined") {
@@ -137,8 +192,8 @@ MODELS.filter(model => {
 
     return (
       calculateMonthlyPayment(
-  model.price
-) <= currentBudget
+        model.price
+      ) <= currentBudget
     );
 
   }).sort(
@@ -198,9 +253,16 @@ currentEligible.filter(
   model.id !== selectedModel.id
 );
 
-  const monthly =
+  const priceAfterDownpayment =
+Math.max(
+  selectedModel.price -
+  currentDownpayment,
+  0
+);
+
+const monthly =
 calculateMonthlyPayment(
-  selectedModel.price
+  priceAfterDownpayment
 );
 
 const rebateData =
@@ -213,12 +275,16 @@ MODEL_REBATES[
 const rebate =
 rebateData.rebate;
 
-const effectivePrice =
-selectedModel.price - rebate;
+const finalPrice =
+Math.max(
+  priceAfterDownpayment -
+  rebate,
+  0
+);
 
 const monthlyAfterRebate =
 calculateMonthlyPayment(
-  effectivePrice
+  finalPrice
 );
 
 const monthlySaving =
@@ -239,34 +305,32 @@ getBudgetMeter(
   selectedModel.id
 ] || [];
 
-  const whatsappMessage =
-encodeURIComponent(
-`Hi Ridzuan,
+  const whatsappMessage = `Hi Ridzuan,
 
-Saya baru menggunakan BYD Miri EV Advisor.
+Saya baru menggunakan EV Loan Calculator.
 
 Pendapatan Bersih Bulanan:
-RM${currentIncome}
+${formatCurrency(currentIncome)}
 
-Cadangan Ridzuan:
+Downpayment:
+${formatCurrency(currentDownpayment)}
+
+Tempoh Pembiayaan:
+${currentTenure} Tahun
+
+Model Dicadangkan:
 ${selectedModel.name}
 
-Boleh bantu saya dengan semakan loan yang lebih tepat?`
-);
+Rebat Semasa:
+${formatCurrency(rebate)}
+
+Anggaran Bulanan:
+${formatCurrency(monthlyAfterRebate)}/bulan
+
+Saya berminat untuk mengetahui kelayakan sebenar dan pilihan loan yang tersedia.`;
 
   resultSection.innerHTML = `
 
-    <div class="calculator-card featured-card">
-
-      <h3>
-        Bajet Disyorkan
-      </h3>
-
-      <h2>
-        ~ ${formatCurrency(currentBudget)}
-      </h2>
-
-    </div>
 
   <div class="advisor-header">
 
@@ -310,7 +374,7 @@ ${
   ""
 }
 
-  <div class="featured-layout">
+ <div class="featured-layout">
 
   <div class="featured-content">
 
@@ -322,116 +386,103 @@ ${
       ${selectedModel.positioning}
     </p>
 
+    <img
+      src="${selectedModel.image}"
+      class="featured-image"
+      alt="${selectedModel.name}">
+
     <p class="range-text">
       ⚡ Range: ${selectedModel.range}
     </p>
 
     <div class="monthly-payment">
-      ${formatCurrency(monthly)}
+      ${formatCurrency(monthlyAfterRebate)}
       / bulan
     </div>
 
-<div class="advisor-reasons">
+    <div class="payment-context">
 
-  <h4>
-    Mengapa Model Ini Sesuai Untuk Anda
-  </h4>
+      Downpayment:
 
-  ${reasons.map(reason => `
+      <span class="payment-highlight">
+        ${formatCurrency(
+          currentDownpayment
+        )}
+      </span>
 
-    <div class="advisor-reason">
+      •
 
-      ✓ ${reason}
+      Rebat:
+
+      <span class="payment-highlight">
+        ${formatCurrency(
+          rebate
+        )}
+      </span>
 
     </div>
 
+    <div class="advisor-reasons">
 
-  `).join("")}
+      <h4>
+        Mengapa Model Ini Sesuai Untuk Anda
+      </h4>
 
-</div>
+      ${reasons.map(reason => `
 
-<div class="suitability-section">
+        <div class="advisor-reason">
 
-  <h4>
-    📊 BAJET-O-METER
-  </h4>
+          ✓ ${reason}
 
-  <div class="suitability-meter">
+        </div>
 
-    <div
-      class="suitability-dot"
-      style="
-      left:${budgetMeter.position}%;">
+      `).join("")}
+
     </div>
 
-  </div>
+    <div class="rebate-card">
 
-  <div class="suitability-label">
+      <h4>
+        🎁 PROMO BULAN INI
+      </h4>
 
-  ${budgetMeter.label}
+      ${
+        rebateData.badge
+          ? `
+          <div class="promo-badge">
+            ${rebateData.badge}
+          </div>
+          `
+          : ""
+      }
 
-</div>
+      <div class="rebate-value">
 
-<div class="rebate-card">
+        Rebat Tunai:
+        ${formatCurrency(rebate)}
 
-  <h4>
-    🎁 PROMO BULAN INI
-  </h4>
-
-  ${
-    rebateData.badge
-      ? `
-      <div class="promo-badge">
-        ${rebateData.badge}
       </div>
-      `
-      : ""
-  }
 
-  <div class="rebate-value">
+      <div class="rebate-saving">
 
-    Rebat Tunai:
-    ${formatCurrency(rebate)}
+        💰 Jimat
+        ${formatCurrency(
+          monthlySaving
+        )}
+        sebulan
 
-  </div>
+      </div>
 
-  <div class="rebate-saving">
-
-    Ansuran Selepas Rebat:
-
-    ${formatCurrency(
-      monthlyAfterRebate
-    )}/bulan
+    </div>
 
   </div>
-
-  <div class="rebate-saving">
-
-    💰 Jimat
-    ${formatCurrency(
-      monthlySaving
-    )}
-    sebulan
-
-  </div>
-
-</div>
-
-</div>
-
-  </div>  
-
-  <img
-    src="${selectedModel.image}"
-    class="featured-image"
-    alt="${selectedModel.name}">
 
 </div>
 
    <div class="calculator-card">
 
   <h3>
-  ANDA LAYAK UNTUK
+  Lihat Model Lain
 </h3>
 
   ${
@@ -455,21 +506,32 @@ ${
   ${model.positioning}
 </small>
 
-<div class="eligible-hint">
-  Klik untuk lihat model ini
-</div>
-
-    <div class="eligible-meta">
-
-  Range: ${model.range}
-
-  •
+<div class="eligible-price">
 
   ${formatCurrency(
+
     calculateMonthlyPayment(
-      model.price
+
+      Math.max(
+        model.price -
+        currentDownpayment -
+        (
+          MODEL_REBATES[
+            model.id
+          ]?.rebate || 0
+        ),
+        0
+      )
+
     )
+
   )}/bulan
+
+</div>
+
+<div class="eligible-meta">
+
+  ⚡ ${model.range}
 
 </div>
 
@@ -489,30 +551,6 @@ ${
 
 </div>
 
-<div class="calculator-card">
-
-  <h3>
-    Tahukah Anda?
-  </h3>
-
-  <div style="margin-top:15px">
-
-    ⚡ Kos perjalanan EV sekitar
-    5–8 sen/km
-
-    <br><br>
-
-    🏠 Cas penuh di rumah sekitar
-    RM15–RM30
-
-    <br><br>
-
-    🔋 Waranti bateri
-    8 Tahun / 160,000km
-
-  </div>
-
-</div>
 
 <div class="calculator-card">
 
@@ -544,37 +582,37 @@ ${
 
   <p>
 
-    Kiraan kelayakan dan ansuran bulanan yang dipaparkan adalah
-    anggaran awal untuk tujuan rujukan sahaja.
+  Anggaran ansuran bulanan yang dipaparkan adalah untuk tujuan rujukan awal sahaja.
 
-    <br><br>
+  <br><br>
 
-    Pengiraan dibuat berdasarkan:
+  Pengiraan mengambil kira:
 
-    <br>
+  <br>
 
-    • Deposit 10%
+  • Downpayment yang anda masukkan
 
-    <br>
+  <br>
 
-    • Tempoh pembiayaan 9 tahun
+  • Rebat semasa yang ditawarkan
 
-    <br>
+  <br>
 
-    • Anggaran kadar faedah semasa 2.2% setahun
+  • Tempoh pembiayaan 9 tahun
 
-    <br><br>
+  <br>
 
-    Kelayakan pembiayaan dan ansuran sebenar adalah tertakluk kepada
-    penilaian institusi kewangan, rekod CCRIS/CTOS, komitmen kewangan
-    semasa, margin pembiayaan yang diluluskan serta kadar faedah yang
-    berkuat kuasa pada waktu permohonan.
+  • Anggaran kadar faedah semasa 2.2% setahun
 
-    <br><br>
+  <br><br>
 
-    Untuk semakan yang lebih tepat, sila hubungi Ridzuan BYD Miri.
+  Ansuran dan kelulusan pembiayaan sebenar adalah tertakluk kepada penilaian pihak bank, rekod CCRIS/CTOS, komitmen kewangan semasa serta kadar pembiayaan yang berkuat kuasa pada waktu permohonan.
 
-  </p>
+  <br><br>
+
+  Untuk semakan yang lebih tepat berdasarkan profil kewangan anda, sila hubungi Ridzuan BYD Miri.
+
+</p>
 
   <div class="footer-note">
 
@@ -671,5 +709,57 @@ if (backButton) {
   );
 
 }
+
+}
+
+function resetCalculator() {
+
+  document.getElementById(
+    "income"
+  ).value = "";
+
+  document.getElementById(
+    "downpayment"
+  ).value = "";
+
+  currentIncome = 0;
+  currentDownpayment = 0;
+
+  currentEligible = [];
+
+  recommendedModel = null;
+
+  selectedModel = null;
+
+  resultSection.innerHTML = "";
+
+  resultSection.classList.add(
+    "hidden"
+  );
+
+  currentTenure = 9;
+
+document
+.querySelectorAll(".tenure-btn")
+.forEach(btn => {
+
+  btn.classList.remove(
+    "active"
+  );
+
+});
+
+document
+.querySelector(
+  '[data-tenure="9"]'
+)
+.classList.add(
+  "active"
+);
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
 }

@@ -50,11 +50,11 @@ body {
   margin-bottom: 25px;
 }
 
-.hero-image {
-  width: 100%;
-  max-width: 320px;
-  border-radius: 24px;
-  margin-bottom: 20px;
+.hero-image{
+  width:100%;
+  max-width:180px;
+  border-radius:24px;
+  margin-bottom:20px;
 }
 
 .hero-description {
@@ -150,6 +150,7 @@ h2 {
   font-weight: 800;
   color: #2e6fff;
   margin-top:12px;
+  line-height:1.05;
 }
 
 .range-text {
@@ -170,10 +171,7 @@ h2 {
 }
 
 .featured-layout{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
+  display:block;
 }
 
 .featured-content{
@@ -181,8 +179,11 @@ h2 {
 }
 
 .featured-image{
-  width:220px;
+  display:block;
+  width:100%;
+  max-width:320px;
   height:auto;
+  margin:10px auto 20px;
   object-fit:contain;
 }
 
@@ -222,6 +223,13 @@ h2 {
   margin-top:8px;
   font-size:12px;
   color:rgba(255,255,255,.55);
+}
+
+.eligible-price{
+  margin-top:12px;
+  font-size:24px;
+  font-weight:700;
+  color:var(--primary-blue);
 }
 
 .advisor-header{
@@ -381,4 +389,106 @@ linear-gradient(
   color:#facc15;
   font-size:11px;
   font-weight:700;
+}
+
+.input-wrapper{
+  position:relative;
+}
+
+.input-prefix{
+  position:absolute;
+  left:16px;
+  top:50%;
+  transform:translateY(-50%);
+  color:rgba(255,255,255,.35);
+  font-weight:600;
+  pointer-events:none;
+}
+
+.input-wrapper input{
+  padding-left:48px;
+}
+
+.secondary-label{
+  margin-top:18px;
+}
+
+.input-helper{
+  margin-top:8px;
+  font-size:12px;
+  line-height:1.5;
+  color:rgba(255,255,255,.55);
+}
+
+.payment-context{
+  margin-top:12px;
+  font-size:13px;
+  color:rgba(255,255,255,.55);
+}
+
+.payment-highlight{
+  color:#3b82f6;
+  font-weight:700;
+}
+
+.reset-btn{
+  display:block;
+  width:100%;
+  margin-top:12px;
+  background:none;
+  border:none;
+  color:rgba(255,255,255,.45);
+  font-size:12px;
+  font-weight:400;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.reset-btn:hover{
+  color:rgba(255,255,255,.8);
+}
+
+.reset-btn:hover{
+  color:white;
+}
+
+.featured-content h2{
+  font-size: clamp(42px, 8vw, 64px);
+  line-height: 0.95;
+}
+
+.tenure-selector{
+
+  display:flex;
+
+  gap:8px;
+
+  margin-top:12px;
+
+  margin-bottom:20px;
+
+}
+
+.tenure-btn{
+
+  flex:1;
+
+  background: rgba(255,255,255,0.04);
+
+  border:1px solid #1f2937;
+
+  color:#9ca3af;
+
+  border-radius:12px;
+
+  padding:10px 6px;
+
+}
+
+.tenure-btn.active{
+
+  background:#2563eb;
+
+  color:white;
+
 }

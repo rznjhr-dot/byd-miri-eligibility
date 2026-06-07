@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7EFNV0NK09"></script>
 
@@ -21,7 +21,7 @@ gtag('config', 'G-7EFNV0NK09');
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
-Ridzuan BYD Miri | EV Eligibility Checker
+EV Loan Calculator | Ridzuan BYD Miri
 </title>
 
 <link rel="stylesheet" href="css/style.css">
@@ -60,20 +60,94 @@ Ridzuan BYD Miri | EV Eligibility Checker
 
   <section class="calculator-card">
 
-    <label>
-      Pendapatan Bersih Bulanan
-    </label>
+  <label>
+    Pendapatan Bersih Bulanan
+  </label>
+
+  <div class="input-wrapper">
+
+    <span class="input-prefix">
+      RM
+    </span>
 
     <input
       type="number"
       id="income"
-      placeholder="Contoh: 5000">
+      placeholder="5000">
 
-    <button id="checkBtn">
-      Semak Kelayakan
-    </button>
+  </div>
 
-  </section>
+  <label class="secondary-label">
+    Downpayment
+  </label>
+
+  <div class="input-wrapper">
+
+    <span class="input-prefix">
+      RM
+    </span>
+
+    <input
+      type="number"
+      id="downpayment"
+      placeholder="0">
+
+  </div>
+
+  <div class="input-helper">
+
+    ℹ️ Masukkan 0 untuk pinjaman penuh (full loan).
+
+  </div>
+
+  <label class="secondary-label">
+  Tempoh Pembiayaan
+</label>
+
+<div class="tenure-selector">
+
+  <button
+    type="button"
+    class="tenure-btn active"
+    data-tenure="9">
+
+    9 Tahun
+
+  </button>
+
+  <button
+    type="button"
+    class="tenure-btn"
+    data-tenure="7">
+
+    7 Tahun
+
+  </button>
+
+  <button
+    type="button"
+    class="tenure-btn"
+    data-tenure="5">
+
+    5 Tahun
+
+  </button>
+
+</div>
+
+  <button id="checkBtn">
+  Semak Kelayakan
+</button>
+
+<button
+  id="resetBtn"
+  class="reset-btn">
+
+  ↺ Mulakan Semula
+
+</button>
+
+</section>
 
   <section
     id="resultSection"
