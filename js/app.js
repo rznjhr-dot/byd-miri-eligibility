@@ -11,6 +11,9 @@ document.getElementById(
 const resultSection =
 document.getElementById("resultSection");
 
+const themeToggle =
+document.getElementById("themeToggle");
+
 let currentEligible = [];
 let recommendedModel = null;
 let selectedModel = null;
@@ -19,15 +22,94 @@ let currentDownpayment = 0;
 let currentBudget = 0;
 let currentTenure = 9;
 
+initThemeToggle();
+
 checkBtn.addEventListener(
   "click",
-  renderResults
+  () => {
+
+    selectedModel = null;
+
+    renderResults({
+      trackAnalytics: true
+    });
+
+  }
 );
 
 resetBtn.addEventListener(
   "click",
   resetCalculator
 );
+
+function initThemeToggle() {
+
+  if (!themeToggle) return;
+
+  updateThemeToggle();
+
+  themeToggle.addEventListener(
+    "click",
+    () => {
+
+      const isLight =
+        document.documentElement.dataset.theme ===
+        "light";
+
+      const nextTheme =
+        isLight ? "dark" : "light";
+
+      if (nextTheme === "light") {
+
+        document.documentElement.dataset.theme =
+          "light";
+
+      } else {
+
+        delete document.documentElement.dataset.theme;
+
+      }
+
+      try {
+
+        localStorage.setItem(
+          "theme",
+          nextTheme
+        );
+
+      } catch (error) {}
+
+      updateThemeToggle();
+
+    }
+  );
+
+}
+
+function updateThemeToggle() {
+
+  const isLight =
+    document.documentElement.dataset.theme ===
+    "light";
+
+  themeToggle.textContent =
+    isLight ? "🌙" : "☀️";
+
+  themeToggle.setAttribute(
+    "aria-label",
+    isLight
+      ? "Tukar ke dark mode"
+      : "Tukar ke light mode"
+  );
+
+  themeToggle.setAttribute(
+    "title",
+    isLight
+      ? "Tukar ke dark mode"
+      : "Tukar ke light mode"
+  );
+
+}
 
 document
 .querySelectorAll(".tenure-btn")
@@ -56,6 +138,18 @@ document
         button.dataset.tenure
       );
 
+      if (
+        !resultSection.classList.contains(
+          "hidden"
+        )
+      ) {
+
+        renderResults({
+          trackAnalytics: false
+        });
+
+      }
+
     }
   );
 
@@ -76,11 +170,16 @@ function formatCurrency(value) {
 
 function calculateMonthlyPayment(
   price,
+  downpayment = currentDownpayment,
+  rebate = 0,
   tenureYears = currentTenure
 ) {
 
   const loanAmount =
-    price * (1 - APP_CONFIG.depositRate);
+    Math.max(
+      price - downpayment - rebate,
+      0
+    );
 
   const totalInterest =
     loanAmount *
@@ -96,6 +195,26 @@ function calculateMonthlyPayment(
 
 }
 
+function getModelRebate(model) {
+
+  return (
+    MODEL_REBATES[
+      model.id
+    ]?.rebate || 0
+  );
+
+}
+
+function getModelMonthlyPayment(model) {
+
+  return calculateMonthlyPayment(
+    model.price,
+    currentDownpayment,
+    getModelRebate(model)
+  );
+
+}
+
 function calculateBudget(currentIncome) {
 
   return currentIncome *
@@ -103,55 +222,10 @@ function calculateBudget(currentIncome) {
 
 }
 
-function getBudgetMeter(
-  monthly,
-  budget
-) {
+function renderResults(options = {}) {
 
-  const displayUsage =
-    Math.round(
-      (monthly / budget) * 100
-    );
-
-  let color = "🟢";
-
-  if (displayUsage > 85) {
-
-    color = "🟠";
-
-  } else if (displayUsage > 60) {
-
-    color = "🔵";
-
-  }
-
-  let label =
-    `${color} ${displayUsage}% Bajet Digunakan`;
-
-  if (displayUsage > 100) {
-
-    label =
-      "🔴 Melebihi Bajet Disyorkan";
-
-  }
-
-  return {
-
-    usage: displayUsage,
-
-    position:
-      Math.min(
-        displayUsage,
-        100
-      ),
-
-    label
-
-  };
-
-}
-
-function renderResults() {
+  const shouldTrackAnalytics =
+    options.trackAnalytics !== false;
 
   currentIncome =
 Number(
@@ -170,7 +244,10 @@ Number(
 
   if (!currentIncome) return;
 
-if (typeof gtag !== "undefined") {
+if (
+  shouldTrackAnalytics &&
+  typeof gtag !== "undefined"
+) {
 
   gtag(
     "event",
@@ -187,42 +264,26 @@ calculateBudget(
   currentIncome
 );
 
+  const affordableModels =
+MODELS.filter(model =>
+  getModelMonthlyPayment(model) <=
+  currentBudget
+).sort(
+  (a, b) =>
+  b.price - a.price
+);
+
+  const fallbackModel =
+MODELS.slice().sort(
+  (a, b) =>
+  getModelMonthlyPayment(a) -
+  getModelMonthlyPayment(b)
+)[0];
+
   currentEligible =
-MODELS.filter(model => {
-
-    return (
-      calculateMonthlyPayment(
-        model.price
-      ) <= currentBudget
-    );
-
-  }).sort(
-    (a, b) =>
-    b.price - a.price
-  );
-
-  if (!currentEligible.length) {
-
-  resultSection.innerHTML = `
-    <div class="calculator-card">
-      <h3>
-        Tiada model dalam julat bajet semasa.
-      </h3>
-
-      <p style="margin-top:12px;">
-        Hubungi Ridzuan BYD Miri
-        untuk semakan lanjut.
-      </p>
-    </div>
-  `;
-
-  resultSection.classList.remove("hidden");
-
-  return;
-
-}
-
-
+affordableModels.length
+  ? affordableModels
+  : [fallbackModel];
 
   recommendedModel =
   currentEligible[0];
@@ -234,7 +295,10 @@ if (!selectedModel) {
 
 }
 
-if (typeof gtag !== "undefined") {
+if (
+  shouldTrackAnalytics &&
+  typeof gtag !== "undefined"
+) {
 
   gtag(
     "event",
@@ -247,22 +311,14 @@ if (typeof gtag !== "undefined") {
 
 }
     
-  const alternatives =
-currentEligible.filter(
+const alternatives =
+MODELS.filter(
   model =>
   model.id !== selectedModel.id
-);
-
-  const priceAfterDownpayment =
-Math.max(
-  selectedModel.price -
-  currentDownpayment,
-  0
-);
-
-const monthly =
-calculateMonthlyPayment(
-  priceAfterDownpayment
+).sort(
+  (a, b) =>
+  getModelMonthlyPayment(a) -
+  getModelMonthlyPayment(b)
 );
 
 const rebateData =
@@ -275,39 +331,29 @@ MODEL_REBATES[
 const rebate =
 rebateData.rebate;
 
-const finalPrice =
-Math.max(
-  priceAfterDownpayment -
-  rebate,
-  0
-);
-
 const monthlyAfterRebate =
-calculateMonthlyPayment(
-  finalPrice
+getModelMonthlyPayment(
+  selectedModel
 );
 
 const monthlySaving =
 Math.round(
-  monthly -
+  calculateMonthlyPayment(
+    selectedModel.price,
+    currentDownpayment,
+    0
+  ) -
   monthlyAfterRebate
 );
-
-const budgetMeter =
-getBudgetMeter(
-  monthly,
-  currentBudget
-);
-
 
   const reasons =
   MODEL_REASONS[
   selectedModel.id
 ] || [];
 
-  const whatsappMessage = `Hi Ridzuan,
+  const whatsappMessage = encodeURIComponent(`Hi Ridzuan,
 
-Saya baru menggunakan EV Loan Calculator.
+Saya baru menggunakan BYD Miri EV Advisor.
 
 Pendapatan Bersih Bulanan:
 ${formatCurrency(currentIncome)}
@@ -327,7 +373,7 @@ ${formatCurrency(rebate)}
 Anggaran Bulanan:
 ${formatCurrency(monthlyAfterRebate)}/bulan
 
-Saya berminat untuk mengetahui kelayakan sebenar dan pilihan loan yang tersedia.`;
+Saya berminat untuk mengetahui kelayakan sebenar dan pilihan loan yang tersedia.`);
 
   resultSection.innerHTML = `
 
@@ -511,17 +557,9 @@ ${
   ${formatCurrency(
 
     calculateMonthlyPayment(
-
-      Math.max(
-        model.price -
-        currentDownpayment -
-        (
-          MODEL_REBATES[
-            model.id
-          ]?.rebate || 0
-        ),
-        0
-      )
+      model.price,
+      currentDownpayment,
+      getModelRebate(model)
 
     )
 
@@ -571,7 +609,7 @@ ${
     
     
 
-    📱 Dapatkan Semakan Loan Percuma
+    📱 Dapatkan Semakan Advisor Percuma
 
   </a>
 
@@ -598,7 +636,7 @@ ${
 
   <br>
 
-  • Tempoh pembiayaan 9 tahun
+  • Tempoh pembiayaan ${currentTenure} tahun
 
   <br>
 
@@ -672,7 +710,7 @@ document
         card.dataset.modelId;
 
       const chosenModel =
-        currentEligible.find(
+        MODELS.find(
           model =>
           model.id === selectedId
         );
@@ -682,7 +720,9 @@ document
       selectedModel =
         chosenModel;
 
-      renderResults();
+      renderResults({
+        trackAnalytics: false
+      });
 
     }
   );
@@ -703,7 +743,9 @@ if (backButton) {
       selectedModel =
         recommendedModel;
 
-      renderResults();
+      renderResults({
+        trackAnalytics: false
+      });
 
     }
   );

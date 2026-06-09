@@ -1,0 +1,355 @@
+{
+  "masterbook": {
+    "version": "1.1",
+    "status": "LOCKED_CURRENT_WORKING_TRUTH",
+    "owner": "Ridzuan | BYD Miri",
+    "last_updated": "2026-06-09"
+  },
+
+  "company": {
+    "dealer_name": "Kah Progression Auto Sdn Bhd",
+    "brand": "BYD Miri",
+    "sales_advisor": "Ridzuan Jahari",
+    "phone": "011-3193 3930",
+    "address": "Lot 1829, Jalan Krokop Utama, 98000 Miri, Sarawak"
+  },
+
+  "business_rules": {
+    "monthly_calculation": {
+      "loan_tenure_years": 9,
+      "interest_rate_percent": 2.2
+    },
+    "sales_priority": [
+      "Monthly Commitment",
+      "Driving Range",
+      "Vehicle Suitability",
+      "Family Usage",
+      "Daily Practicality"
+    ],
+    "avoid_leading_with": [
+      "Battery Size",
+      "Horsepower",
+      "Technical Specifications"
+    ]
+  },
+
+  "warranty": {
+    "vehicle": {
+      "years": 6,
+      "km": 150000
+    },
+    "blade_battery": {
+      "years": 8,
+      "km": 160000
+    },
+    "drive_unit": {
+      "years": 8,
+      "km": 150000
+    }
+  },
+
+  "pricing_database": {
+    "Atto 2 Premium": {
+      "otr_price_rm": 106353.00,
+      "rebate_rm": 8000,
+      "monthly_90_rm": 982,
+      "monthly_full_rm": 1091
+    },
+    "Atto 3 Ultra": {
+      "otr_price_rm": 133890.90,
+      "rebate_rm": 10000,
+      "monthly_90_rm": 1237,
+      "monthly_full_rm": 1374
+    },
+    "Atto 3 Premium": {
+      "otr_price_rm": 147333.20,
+      "rebate_rm": 10000,
+      "monthly_90_rm": 1371,
+      "monthly_full_rm": 1523
+    },
+    "Seal 6 Premium": {
+      "otr_price_rm": 122552.00,
+      "rebate_rm": 1800,
+      "monthly_90_rm": 1206,
+      "monthly_full_rm": 1340
+    },
+    "M6 Extended": {
+      "otr_price_rm": 130690.00,
+      "rebate_rm": 6000,
+      "monthly_90_rm": 1245,
+      "monthly_full_rm": 1383
+    },
+    "Seal Premium": {
+      "otr_price_rm": 179879.00,
+      "rebate_rm": 2000,
+      "monthly_90_rm": 1776,
+      "monthly_full_rm": 1973
+    },
+    "Seal Performance": {
+      "otr_price_rm": 200904.00,
+      "rebate_rm": 2000,
+      "monthly_90_rm": 1986,
+      "monthly_full_rm": 2207
+    },
+    "Sealion 7 Premium": {
+      "otr_price_rm": 192116.00,
+      "rebate_rm": 9000,
+      "monthly_90_rm": 1828,
+      "monthly_full_rm": 2031
+    },
+    "Sealion 7 Performance": {
+      "otr_price_rm": 209062.00,
+      "rebate_rm": 9000,
+      "monthly_90_rm": 1997,
+      "monthly_full_rm": 2219
+    }
+  },
+
+  "technical_database": {
+    "Atto 2 Premium": {
+      "drivetrain": "FWD",
+      "max_power_kw": 130,
+      "max_torque_nm": 290,
+      "acceleration_0_100_sec": 7.9,
+      "battery_kwh": 51.13,
+      "nedc_range_km": 410
+    },
+    "Atto 3 Ultra": {
+      "drivetrain": "FWD",
+      "max_power_kw": 150,
+      "max_torque_nm": 310,
+      "acceleration_0_100_sec": 7.3,
+      "battery_kwh": 60.48,
+      "nedc_range_km": 480
+    },
+    "Atto 3 Premium": {
+      "drivetrain": "RWD",
+      "max_power_kw": 230,
+      "max_torque_nm": 380,
+      "acceleration_0_100_sec": 5.5,
+      "battery_kwh": 74.88,
+      "nedc_range_km": 600
+    },
+    "Seal 6 Premium": {
+      "drivetrain": "RWD",
+      "max_power_kw": 160,
+      "max_torque_nm": 330,
+      "acceleration_0_100_sec": 7.5,
+      "battery_kwh": 56.64,
+      "nedc_range_km": 485
+    },
+    "M6 Extended": {
+      "drivetrain": "FWD",
+      "max_power_kw": 150,
+      "max_torque_nm": 310,
+      "acceleration_0_100_sec": 8.6,
+      "battery_kwh": 71.8,
+      "nedc_range_km": 530
+    },
+    "Seal Premium": {
+      "drivetrain": "RWD",
+      "max_power_kw": 230,
+      "max_torque_nm": 360,
+      "acceleration_0_100_sec": 5.9,
+      "battery_kwh": 82.56,
+      "nedc_range_km": 650
+    },
+    "Seal Performance": {
+      "drivetrain": "AWD",
+      "max_power_kw": 390,
+      "max_torque_nm": 670,
+      "acceleration_0_100_sec": 3.8,
+      "battery_kwh": 82.56,
+      "nedc_range_km": 580
+    },
+    "Sealion 7 Premium": {
+      "drivetrain": "RWD",
+      "max_power_kw": 230,
+      "max_torque_nm": 380,
+      "acceleration_0_100_sec": 6.7,
+      "battery_kwh": 82.5,
+      "nedc_range_km": 567
+    },
+    "Sealion 7 Performance": {
+      "drivetrain": "AWD",
+      "max_power_kw": 390,
+      "max_torque_nm": 690,
+      "acceleration_0_100_sec": 4.5,
+      "battery_kwh": 82.5,
+      "nedc_range_km": 542
+    }
+  },
+
+  "cargo_database": {
+    "Atto 2 Premium": {
+      "cargo_l": 400,
+      "cargo_max_l": 1320
+    },
+    "Atto 3 Ultra": {
+      "cargo_l": 440,
+      "cargo_max_l": 1340
+    },
+    "Atto 3 Premium": {
+      "cargo_l": 440,
+      "cargo_max_l": 1340
+    },
+    "Seal 6 Premium": {
+      "cargo_l": 525
+    },
+    "M6 Extended": {
+      "cargo_l": 580,
+      "cargo_max_l": 1800
+    },
+    "Seal Premium": {
+      "cargo_l": 400,
+      "frunk_l": 53
+    },
+    "Seal Performance": {
+      "cargo_l": 400,
+      "frunk_l": 53
+    },
+    "Sealion 7 Premium": {
+      "cargo_l": 500,
+      "cargo_max_l": 1789,
+      "frunk_l": 58
+    },
+    "Sealion 7 Performance": {
+      "cargo_l": 520,
+      "cargo_max_l": 1789,
+      "frunk_l": 58
+    }
+  },
+
+  "feature_database": {
+    "Atto 2 Premium": [
+      "Ventilated Front Seats",
+      "BYD Digital Key",
+      "Bluetooth Key",
+      "50W Wireless Charger",
+      "12.8 Inch Rotating Screen",
+      "Wireless Apple CarPlay",
+      "Wireless Android Auto",
+      "Electric Tailgate"
+    ],
+    "Atto 3 Ultra": [
+      "Ventilated Front Seats",
+      "BYD Digital Key",
+      "Bluetooth Key",
+      "15.6 Inch Rotating Screen",
+      "Wireless Apple CarPlay",
+      "Wireless Android Auto",
+      "Electric Tailgate"
+    ],
+    "Atto 3 Premium": [
+      "Ventilated Front Seats",
+      "BYD Digital Key",
+      "Bluetooth Key",
+      "15.6 Inch Rotating Screen",
+      "Wireless Apple CarPlay",
+      "Wireless Android Auto",
+      "Electric Tailgate"
+    ],
+    "Seal 6 Premium": [
+      "BYD Digital Key",
+      "Panoramic Sunroof",
+      "Ventilated Front Seats",
+      "15.6 Inch Rotating Screen",
+      "Wireless Apple CarPlay",
+      "Wireless Android Auto",
+      "360 Camera"
+    ],
+    "M6 Extended": [
+      "7 Seater",
+      "Wireless Charger",
+      "V2L",
+      "Adaptive Cruise Control"
+    ],
+    "Seal Premium": [
+      "DiSus-C",
+      "BYD Digital Key",
+      "Electric Sunshade",
+      "Ventilated Seats",
+      "Wireless Apple CarPlay",
+      "Wireless Android Auto",
+      "Electric Tailgate"
+    ],
+    "Seal Performance": [
+      "DiSus-C",
+      "BYD Digital Key",
+      "Electric Sunshade",
+      "Ventilated Seats",
+      "Wireless Apple CarPlay",
+      "Wireless Android Auto",
+      "Electric Tailgate"
+    ],
+    "Sealion 7 Premium": [
+      "Head Up Display",
+      "Ventilated Seats",
+      "Panoramic Roof",
+      "NFC Key",
+      "Electric Tailgate",
+      "Driver Attention Warning",
+      "Premium Quilted Seats"
+    ],
+    "Sealion 7 Performance": [
+      "Head Up Display",
+      "Ventilated Seats",
+      "Panoramic Roof",
+      "NFC Key",
+      "Electric Tailgate",
+      "Driver Attention Warning",
+      "Premium Quilted Seats"
+    ]
+  },
+
+  "adas_database": {
+    "standard_byd_adas_suite": [
+      "Adaptive Cruise Control",
+      "Lane Departure Warning",
+      "Lane Keep Assist",
+      "Emergency Lane Keeping Assist",
+      "Blind Spot Detection",
+      "Rear Cross Traffic Alert",
+      "Rear Cross Traffic Brake",
+      "Door Open Warning",
+      "Forward Collision Warning",
+      "Autonomous Emergency Braking",
+      "Traffic Sign Recognition",
+      "Intelligent Speed Limit Control",
+      "High Beam Assist"
+    ]
+  },
+
+  "monthly_commitment_ranking": [
+    { "rank": 1, "model": "Atto 2 Premium", "monthly_rm": 982 },
+    { "rank": 2, "model": "Seal 6 Premium", "monthly_rm": 1206 },
+    { "rank": 3, "model": "Atto 3 Ultra", "monthly_rm": 1237 },
+    { "rank": 4, "model": "M6 Extended", "monthly_rm": 1245 },
+    { "rank": 5, "model": "Atto 3 Premium", "monthly_rm": 1371 },
+    { "rank": 6, "model": "Seal Premium", "monthly_rm": 1776 },
+    { "rank": 7, "model": "Sealion 7 Premium", "monthly_rm": 1828 },
+    { "rank": 8, "model": "Seal Performance", "monthly_rm": 1986 },
+    { "rank": 9, "model": "Sealion 7 Performance", "monthly_rm": 1997 }
+  ],
+
+  "sales_positioning": {
+    "Atto 2 Premium": "Best First EV",
+    "Atto 3 Ultra": "Best All-Round Family SUV",
+    "Atto 3 Premium": "Long Range SUV",
+    "Seal 6 Premium": "Sedan Value Champion",
+    "M6 Extended": "Family 7-Seater EV",
+    "Seal Premium": "Executive Sedan",
+    "Seal Performance": "Flagship Performance Sedan",
+    "Sealion 7 Premium": "Premium Electric SUV",
+    "Sealion 7 Performance": "Flagship Performance SUV"
+  },
+
+  "golden_sales_numbers": {
+    "home_full_charge_cost_rm": "15-30",
+    "travel_cost_sen_per_km": "5-8",
+    "monthly_electricity_increase_rm": "60-100",
+    "wallbox_installation_rm": "3000-4500",
+    "portable_charger": "Included",
+    "dc_fast_charge_10_80_percent_minutes": "30-45"
+  }
+}

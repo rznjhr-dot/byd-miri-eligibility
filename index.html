@@ -21,8 +21,18 @@ gtag('config', 'G-7EFNV0NK09');
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
-EV Loan Calculator | Ridzuan BYD Miri
+BYD Miri EV Advisor | Ridzuan BYD Miri
 </title>
+
+<script>
+try {
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme === "light") {
+    document.documentElement.dataset.theme = "light";
+  }
+} catch (error) {}
+</script>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -32,12 +42,28 @@ EV Loan Calculator | Ridzuan BYD Miri
 
 <div class="container">
 
-  <section class="hero">
+  <div class="top-bar">
 
-    <img
-      src="assets/byd-logo.png"
-      class="logo"
-      alt="BYD Logo">
+    <span
+      class="brand-logo"
+      role="img"
+      aria-label="BYD Logo">
+    </span>
+
+    <button
+      type="button"
+      id="themeToggle"
+      class="theme-toggle"
+      aria-label="Tukar tema"
+      title="Tukar tema">
+
+      ☀️
+
+    </button>
+
+  </div>
+
+  <section class="hero">
 
     <h1>
       Cari EV Yang Sesuai Dengan Bajet Anda
@@ -73,7 +99,7 @@ EV Loan Calculator | Ridzuan BYD Miri
     <input
       type="number"
       id="income"
-      placeholder="5000">
+      placeholder="3500">
 
   </div>
 
@@ -136,7 +162,7 @@ EV Loan Calculator | Ridzuan BYD Miri
 </div>
 
   <button id="checkBtn">
-  Semak Kelayakan
+  Cari Model Sesuai
 </button>
 
 <button
