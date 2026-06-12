@@ -375,6 +375,21 @@ ${formatCurrency(monthlyAfterRebate)}/bulan
 
 Saya berminat untuk mengetahui kelayakan sebenar dan pilihan loan yang tersedia.`);
 
+  const testDriveMessage = encodeURIComponent(`Hi Ridzuan,
+
+Saya baru menggunakan BYD Miri EV Advisor dan berminat untuk buat test drive.
+
+Model:
+${selectedModel.name}
+
+Pendapatan Bersih Bulanan:
+${formatCurrency(currentIncome)}
+
+Downpayment:
+${formatCurrency(currentDownpayment)}
+
+Boleh tolong uruskan appointment test drive?`);
+
   resultSection.innerHTML = `
 
 
@@ -610,6 +625,16 @@ ${
     
 
     📱 Dapatkan Semakan Advisor Percuma
+
+  </a>
+
+  <a
+    class="td-button"
+    target="_blank"
+    href="https://wa.me/${APP_CONFIG.whatsappNumber}?text=${testDriveMessage}">
+    
+
+    🚗 Tempah Test Drive Percuma
 
   </a>
 

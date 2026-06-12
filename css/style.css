@@ -246,6 +246,18 @@ h2 {
   font-weight:700;
 }
 
+.td-button{
+  display:block;
+  margin-top:12px;
+  text-align:center;
+  text-decoration:none;
+  background:var(--primary);
+  color:white;
+  padding:16px;
+  border-radius:14px;
+  font-weight:700;
+}
+
 .featured-layout{
   display:block;
 }
